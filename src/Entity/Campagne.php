@@ -30,6 +30,14 @@ class Campagne
     #[ORM\JoinColumn(nullable: false)]
     private ?ModeCotisation $modecotisation = null;
 
+    #[ORM\ManyToOne(inversedBy: 'campagnes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Type $Type = null;
+
+    #[ORM\ManyToOne(inversedBy: 'campagnes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Groupement $Groupement = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +99,30 @@ class Campagne
     public function setModecotisation(?ModeCotisation $modecotisation): static
     {
         $this->modecotisation = $modecotisation;
+
+        return $this;
+    }
+
+    public function getType(): ?Type
+    {
+        return $this->Type;
+    }
+
+    public function setType(?Type $Type): static
+    {
+        $this->Type = $Type;
+
+        return $this;
+    }
+
+    public function getGroupement(): ?Groupement
+    {
+        return $this->Groupement;
+    }
+
+    public function setGroupement(?Groupement $Groupement): static
+    {
+        $this->Groupement = $Groupement;
 
         return $this;
     }
