@@ -86,9 +86,9 @@
             "@auto-scripts"
         ],
         "dioppapendiame:entity:create": [
-            "Composer\\Config::disableProcessTimeout",
-            "@php bin/console make:entity"
-        ],
+    "Composer\\Config::disableProcessTimeout",
+    "@php bin/console make:entity < CON"
+],
         "dioppapendiame:db:create": [
             "@php bin/console doctrine:database:drop --if-exists --force",
             "@php bin/console doctrine:database:create"
