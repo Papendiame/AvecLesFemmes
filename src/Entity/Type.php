@@ -67,7 +67,6 @@ class Type
     public function removeCampagne(Campagne $campagne): static
     {
         if ($this->campagnes->removeElement($campagne)) {
-            // set the owning side to null (unless already changed)
             if ($campagne->getType() === $this) {
                 $campagne->setType(null);
             }

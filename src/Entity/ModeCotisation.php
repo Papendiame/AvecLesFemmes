@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ModeCotisationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ModeCotisationRepository::class)]
@@ -18,23 +16,13 @@ class ModeCotisation
     #[ORM\Column]
     private ?bool $Libre = null;
 
-    /**
-     * @var Collection<int, Campagne>
-     */
-    #[ORM\OneToMany(targetEntity: Campagne::class, mappedBy: 'modecotisation')]
-    private Collection $campagnes;
+    #[ORM\ManyToOne(inversedBy: 'modeCotisations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Campagne $Campagne = null;
 
-    /**
-     * @var Collection<int, Membre>
-     */
-    #[ORM\OneToMany(targetEntity: Membre::class, mappedBy: 'ModeCotisation')]
-    private Collection $membres;
-
-    public function __construct()
-    {
-        $this->campagnes = new ArrayCollection();
-        $this->membres = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'modeCotisations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Membre $Membre = null;
 
     public function getId(): ?int
     {
@@ -53,62 +41,26 @@ class ModeCotisation
         return $this;
     }
 
-    /**
-     * @return Collection<int, Campagne>
-     */
-    public function getCampagnes(): Collection
+    public function getCampagne(): ?Campagne
     {
-        return $this->campagnes;
+        return $this->Campagne;
     }
 
-    public function addCampagne(Campagne $campagne): static
+    public function setCampagne(?Campagne $Campagne): static
     {
-        if (!$this->campagnes->contains($campagne)) {
-            $this->campagnes->add($campagne);
-            $campagne->setModecotisation($this);
-        }
+        $this->Campagne = $Campagne;
 
         return $this;
     }
 
-    public function removeCampagne(Campagne $campagne): static
+    public function getMembre(): ?Membre
     {
-        if ($this->campagnes->removeElement($campagne)) {
-            // set the owning side to null (unless already changed)
-            if ($campagne->getModecotisation() === $this) {
-                $campagne->setModecotisation(null);
-            }
-        }
-
-        return $this;
+        return $this->Membre;
     }
 
-    /**
-     * @return Collection<int, Membre>
-     */
-    public function getMembres(): Collection
+    public function setMembre(?Membre $Membre): static
     {
-        return $this->membres;
-    }
-
-    public function addMembre(Membre $membre): static
-    {
-        if (!$this->membres->contains($membre)) {
-            $this->membres->add($membre);
-            $membre->setModeCotisation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMembre(Membre $membre): static
-    {
-        if ($this->membres->removeElement($membre)) {
-            // set the owning side to null (unless already changed)
-            if ($membre->getModeCotisation() === $this) {
-                $membre->setModeCotisation(null);
-            }
-        }
+        $this->Membre = $Membre;
 
         return $this;
     }
