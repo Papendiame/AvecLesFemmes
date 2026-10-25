@@ -26,6 +26,10 @@ class Campagne
     #[ORM\Column]
     private ?int $Montant = null;
 
+    #[ORM\ManyToOne(inversedBy: 'campagnes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ModeCotisation $modecotisation = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +79,18 @@ class Campagne
     public function setMontant(int $Montant): static
     {
         $this->Montant = $Montant;
+
+        return $this;
+    }
+
+    public function getModecotisation(): ?ModeCotisation
+    {
+        return $this->modecotisation;
+    }
+
+    public function setModecotisation(?ModeCotisation $modecotisation): static
+    {
+        $this->modecotisation = $modecotisation;
 
         return $this;
     }
