@@ -24,9 +24,16 @@ class ModeCotisation
     #[ORM\OneToMany(targetEntity: Campagne::class, mappedBy: 'modecotisation')]
     private Collection $campagnes;
 
+    /**
+     * @var Collection<int, Membre>
+     */
+    #[ORM\OneToMany(targetEntity: Membre::class, mappedBy: 'ModeCotisation')]
+    private Collection $membres;
+
     public function __construct()
     {
         $this->campagnes = new ArrayCollection();
+        $this->membres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,6 +77,36 @@ class ModeCotisation
             // set the owning side to null (unless already changed)
             if ($campagne->getModecotisation() === $this) {
                 $campagne->setModecotisation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Membre>
+     */
+    public function getMembres(): Collection
+    {
+        return $this->membres;
+    }
+
+    public function addMembre(Membre $membre): static
+    {
+        if (!$this->membres->contains($membre)) {
+            $this->membres->add($membre);
+            $membre->setModeCotisation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMembre(Membre $membre): static
+    {
+        if ($this->membres->removeElement($membre)) {
+            // set the owning side to null (unless already changed)
+            if ($membre->getModeCotisation() === $this) {
+                $membre->setModeCotisation(null);
             }
         }
 
