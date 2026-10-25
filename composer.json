@@ -84,7 +84,22 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "dioppapendiame:entity:create": [
+    "@putenv COMPOSER_PROCESS_TIMEOUT=0",
+    "@php bin/console make:entity"
+],
+"dioppapendiame:db:create": [
+    "@php bin/console doctrine:database:drop --if-exists --force",
+    "@php bin/console doctrine:database:create"
+],
+"dioppapendiame:cache:clear": [
+    "@php bin/console cache:clear"
+],
+"dioppapendiame:migration:execute": [
+    "@php bin/console make:migration --no-interaction",
+    "@php bin/console doctrine:migrations:migrate --no-interaction"
+]
     },
     "conflict": {
         "symfony/symfony": "*"
@@ -100,7 +115,7 @@
         "symfony/browser-kit": "7.4.*",
         "symfony/css-selector": "7.4.*",
         "symfony/debug-bundle": "7.4.*",
-        "symfony/maker-bundle": "^1.0",
+        "symfony/maker-bundle": "^1.68",
         "symfony/stopwatch": "7.4.*",
         "symfony/web-profiler-bundle": "7.4.*"
     }
